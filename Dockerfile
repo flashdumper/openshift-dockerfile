@@ -8,4 +8,5 @@ RUN yum install -y epel-release &&\
     pip install --upgrade pip &&\
     pip3 install -r /tmp/requirements.txt
 
-CMD ["/usr/bin/python3 /opt/app.py"]
+WORKDIR /opt/
+CMD ["python3","app.py"]
