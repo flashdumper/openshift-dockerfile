@@ -1,9 +1,11 @@
-FROM centos/httpd-24-centos7
+FROM centos
 
-RUN sed -ie 's/^#SSLCertificate/SSLCertificate/g' /etc/httpd/conf.d/ssl.conf
+COPY requirements.txt /tmp/
+COPY app.py /opt/
 
-COPY certs/localhost.crt /etc/pki/tls/certs/localhost.crt
-COPY certs/localhost.key /etc/pki/tls/private/localhost.key
-COPY certs/server-chain.crt /etc/pki/tls/certs/server-chain.crt
+RUN yum install -y epel-release &&\
+    yum install -y python2-pip python34-pip python34 &&\
+    pip install --upgrade pip &&\
+    pip3 install -r /tmp/requirements.txt
 
-
+CMD ["/usr/bin/python3 /opt/app.py"]
